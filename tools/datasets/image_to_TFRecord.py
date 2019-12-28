@@ -42,7 +42,7 @@ flags.DEFINE_string(
 flags.DEFINE_string(
     'csv_file', 'data.csv', 'csv file that contains files list and labels.')    
 flags.DEFINE_string(
-    'local_scratch_dir', None, 'Scratch directory path for output files on local.')
+    'local_scratch_dir', 'tfRecord', 'Scratch directory path for output files on local.')
 flags.DEFINE_integer(
     'shards', 1024, 'number of chucks to split the training files into')
 flags.DEFINE_integer(
