@@ -268,7 +268,7 @@ def convert_to_tf_records():
     return tf_records
 
 
-def upload_to_gcs(training_records, validation_records):
+def upload_to_gcs(tf_records):
     """Upload TF-Record files to GCS, at provided path."""
 
     # Find the GCS bucket_name and key_prefix for dataset files
@@ -292,13 +292,9 @@ def upload_to_gcs(training_records, validation_records):
             if not i % 20:
                 logging.info('Finished uploading file: %s' % filename)
 
-    # Upload training dataset
-    logging.info('Uploading the training data.')
-    _upload_files(training_records)
-
-    # Upload validation dataset
-    logging.info('Uploading the validation data.')
-    _upload_files(validation_records)
+    # Upload dataset
+    logging.info('Uploading the data.')
+    _upload_files(tf_records)
 
 
 def main(argv):  # pylint: disable=unused-argument
@@ -318,7 +314,7 @@ def main(argv):  # pylint: disable=unused-argument
 
     # Upload to GCS
     if FLAGS.gcs_upload:
-        upload_to_gcs(training_records, validation_records)
+        upload_to_gcs(tf_records)
 
 
 if __name__ == '__main__':
