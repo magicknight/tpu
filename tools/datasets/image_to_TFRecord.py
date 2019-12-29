@@ -17,6 +17,7 @@ python to_TFRecord.py \
   --local_scratch_dir='./tfRecord' \  
   --project="TEST_PROJECT" \
   --gcs_output_path="gs://TEST_BUCKET/IMAGENET_DIR" \
+  --gcs_upload="True" \
   --shards=1024 \
 
 ```
