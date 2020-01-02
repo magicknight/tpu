@@ -103,10 +103,6 @@ def _convert_to_example(filename, image_buffer, label, height, width):
         'image/filename': _bytes_feature(os.path.basename(filename[list(filename.keys())[0]])),
         'image/encoded': _bytes_feature(image_buffer)
         }
-    print('----------')
-    print(filename)
-    print(label)
-    print(height, width)
     for key in label.keys():
         features['label/' + key] = _float_feature(label[key])
     example = tf.train.Example(features=tf.train.Features(feature=features))
