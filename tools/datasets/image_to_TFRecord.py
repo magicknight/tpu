@@ -20,6 +20,8 @@ python to_TFRecord.py \
   --gcs_upload="True" \
   --shards=1024 \
 
+for example:
+     GOOGLE_APPLICATION_CREDENTIALS=/home/zhihua/data/gcs.json ./image_to_TFRecord.py --csv_file=/home/zhihua/test/data/test.csv --local_scratch_dir=/home/zhihua/test/data/tfRecord --project=apt-footing-256512 --shards=16
 ```
 """
 
@@ -101,6 +103,10 @@ def _convert_to_example(filename, image_buffer, label, height, width):
         'image/filename': _bytes_feature(os.path.basename(filename[list(filename.keys())[0]])),
         'image/encoded': _bytes_feature(image_buffer)
         }
+    print('----------')
+    print(filename)
+    print(label)
+    print(height, width)
     for key in label.keys():
         features['label/' + key] = _float_feature(label[key])
     example = tf.train.Example(features=tf.train.Features(feature=features))
@@ -218,7 +224,7 @@ def _process_dataset(filenames, labels):
         for key in filenames.keys():
             chunk_files[key] = filenames[key][shard * chunksize: (shard + 1) * chunksize]
         for key in labels.keys():
-            chunk_files[key] = labels[key][shard * chunksize: (shard + 1) * chunksize]            
+            chunk_labels[key] = labels[key][shard * chunksize: (shard + 1) * chunksize]            
         output_file = os.path.join(
             FLAGS.local_scratch_dir, '%.5d-of-%.5d' % (shard, FLAGS.shards))
         _process_image_files_batch(coder, output_file, chunk_files,
